@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance App</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            padding: 20px;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        .table thead th {
+            background-color: #f8f9fa;
+        }
+        .table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .transaction-amount {
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            padding: 10px;
+            font-size: 14px;
+        }
+        .btn-primary, .btn-info {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .datepicker {
+            width: 100%;
+        }
+    </style>
+    <script>
+        $(function() {
+            $('#id_date').datepicker({
+                dateFormat: 'yy-mm-dd'
+            }).addClass('form-control datepicker');
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center text-bold">Personal Finance Tracker</h1>
+        <h2 class="text-center">Enter Transaction</h2>
+        <form method="post" class="mb-4">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.date.label_tag }}
+                {{ form.date }}
+            </div>
+            <div class="form-group">
+                {{ form.amount.label_tag }}
+                {{ form.amount }}
+            </div>
+            <div class="form-group">
+                {{ form.details.label_tag }}
+                {{ form.details }}
+            </div>
+            <div class="form-group">
+                {{ form.spend_or_receive.label_tag }}
+                {{ form.spend_or_receive }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        <h2 class="text-center">Transactions</h2>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.date }}</td>
+                    <td class="transaction-amount" style="color: {% if transaction.amount < 0 %}red{% else %}green{% endif %}">{{ transaction.amount }}</td>
+                    <td>{{ transaction.details }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'report' %}" class="btn btn-info">View Weekly Report</a>
+    </div>
+</body>
+</html>
+C:\Users\agraw\OneDrive\Desktop\Finance_project\personalFinance
