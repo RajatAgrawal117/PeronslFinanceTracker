@@ -1,5 +1,0 @@
-Django>=3.2,<4.0
-django-crispy-forms>=1.11.0
-pytz
-sqlparse
-asgiref
